@@ -1,0 +1,20 @@
+uniform mat4 modelMatrix;       
+uniform mat4 viewMatrix;        
+uniform mat4 projectionMatrix;  
+uniform mat3 normalMatrix;
+
+attribute vec4 vertexPosition;   
+attribute vec3 vertexNormal;
+
+varying vec3 vNormal;
+varying vec3 vertPos;
+
+void main()
+{                           
+    gl_Position = projectionMatrix * viewMatrix * modelMatrix * vertexPosition;
+    gl_PointSize = 10.0;                    
+    vec4 vertPos4 = viewMatrix * modelMatrix * vertexPosition;
+    vertPos = vec3(vertPos4) / vertPos4.w;
+    vec3 normal = vertexNormal;
+    vNormal = normalMatrix * normal;
+}                                       

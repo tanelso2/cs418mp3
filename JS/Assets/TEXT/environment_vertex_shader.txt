@@ -1,0 +1,28 @@
+uniform mat4 modelMatrix;       
+uniform mat4 viewMatrix;        
+uniform mat4 projectionMatrix;  
+
+attribute vec4 vertexPosition;   
+attribute vec4 vertexColor; 
+attribute vec2 textureCoord;
+
+varying vec4 vColor;
+varying vec2 vTextureCoord;
+
+uniform sampler2D uSampler;
+
+vec4 modifiedPos;
+
+
+void main()
+{                 
+
+    modifiedPos = vertexPosition;
+    vec4 sampledColor = texture2D(uSampler, vec2(textureCoord.s, textureCoord.t));
+    modifiedPos.z = (sampledColor.r + sampledColor.g + sampledColor.b)/3.0 * 3.5;
+    modifiedPos.z = modifiedPos.z - 10.0;
+    gl_Position = projectionMatrix * viewMatrix * modelMatrix * modifiedPos;
+    gl_PointSize = 10.0;                    
+    vColor = vertexColor;
+    vTextureCoord = textureCoord;
+}                                       
